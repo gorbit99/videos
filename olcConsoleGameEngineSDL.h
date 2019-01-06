@@ -7,7 +7,6 @@ may not be fully compatible or fully featured, and development
 will invariably lag behind the rest - sorry.
 
 NOTE: DOES NOT SUPPORT SOUND YET
-NOTE: DOES NOT SUUPORT MOUSE INPUT YET
 
 I recommend compiling as follows, of course you need SDL from your vendor
 
@@ -18,7 +17,7 @@ some awesome individuals, this would not be a thing!
 
 =========== IMPORTANT!!! PLEASE READ ==========================================
 
-Firstly, Thanks to Jack Clarke (JackOJC on Discord and Github). He had the 
+Firstly, Thanks to Jack Clarke (JackOJC on Discord and Github). He had the
 idea of porting over the olcConsoleGameEngine to non-windows operating systems.
 
 He developed a prototype which can be found here:
@@ -27,14 +26,14 @@ which really proved that it could be possible.
 
 I then added functionality to ensure that this header is 99% compatible with
 my existing code base, so almost all the videos I've made should be compatible
-with this version of the olcConsoleGameEngine, without modificatcion.
+with this version of the olcConsoleGameEngine, without modification.
 
 Finally I'd also like to thank MrBadNews on Discord for testing and finding
 many bugs, and creating workarounds, and Slavka on Discord for help debug SDL
 double buffering issues - stupid SDL :P
 
-Please remember I, javidx9, am not a Linux or SDL specialist. Therfore please
-report bugs, or ask for help on the Discord Server, as I probably don't use 
+Please remember I, javidx9, am not a Linux or SDL specialist. Therefore please
+report bugs, or ask for help on the Discord Server, as I probably don't use
 the same non-windows operating systems as you, and each have their own methods
 for building and installing.
 
@@ -202,7 +201,7 @@ Character Set -> Use Unicode. Thanks! For now, Ill try enabling it for you - Jav
 #define VK_F11 SDL_SCANCODE_F11				  + KEY_OFFSET
 #define VK_F12 SDL_SCANCODE_F12				  + KEY_OFFSET
 
-struct CHAR_INFO 
+struct CHAR_INFO
 {
 	unsigned short glyph;
 	short colour;
@@ -313,7 +312,7 @@ private:
 public:
 	void SetGlyph(int x, int y, wchar_t c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Glyphs[y * nWidth + x] = c;
@@ -321,7 +320,7 @@ public:
 
 	void SetColour(int x, int y, short c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Colours[y * nWidth + x] = c;
@@ -329,7 +328,7 @@ public:
 
 	wchar_t GetGlyph(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[y * nWidth + x];
@@ -337,7 +336,7 @@ public:
 
 	short GetColour(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[y * nWidth + x];
@@ -347,7 +346,7 @@ public:
 	{
 		int sx = (int)(x * (float)nWidth);
 		int sy = (int)(y * (float)nHeight - 1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[sy * nWidth + sx];
@@ -357,7 +356,7 @@ public:
 	{
 		int sx = (int)(x * (float)nWidth);
 		int sy = (int)(y * (float)nHeight - 1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[sy * nWidth + sx];
@@ -374,7 +373,7 @@ public:
 #else
 		wcstombs(buff, sFile.c_str(), 256);
 #endif
-				
+
 #ifdef _WIN32
 		fopen_s(&f, buff, "wb");
 #else
@@ -439,7 +438,7 @@ public:
 		m_nScreenWidth = 80;
 		m_nScreenHeight = 30;
 
-		
+
 		memset(m_keyNewState, 0, 512 * sizeof(bool));
 		memset(m_keyOldState, 0, 512 * sizeof(bool));
 		memset(m_keys._state, 0, 512 * sizeof(sKeyState));
@@ -456,15 +455,15 @@ public:
 		m_nFontWidth = fontw;
 		m_nFontHeight = fonth;
 
-		
+
 
 
 		// Allocate memory for screen buffer
 		m_bufScreen[0] = new CHAR_INFO[m_nScreenWidth*m_nScreenHeight];
 		m_bufScreen[1] = new CHAR_INFO[m_nScreenWidth*m_nScreenHeight];
 		// NOTE(MrBadNewS): set buffers to zero, old way
-		memset(m_bufScreen[0], 0, m_nScreenWidth*m_nScreenHeight*sizeof(CHAR_INFO));
-		memset(m_bufScreen[1], 0, m_nScreenWidth*m_nScreenHeight*sizeof(CHAR_INFO));
+		memset(m_bufScreen[0], 0, m_nScreenWidth*m_nScreenHeight * sizeof(CHAR_INFO));
+		memset(m_bufScreen[1], 0, m_nScreenWidth*m_nScreenHeight * sizeof(CHAR_INFO));
 		m_nCurrentBuffer = 0;
 
 		return 1;
@@ -491,7 +490,7 @@ public:
 	void DrawString(int x, int y, std::wstring c, short col = 0x000F)
 	{
 		for (size_t i = 0; i < c.size(); i++)
-		{			
+		{
 			m_bufScreen[m_nCurrentBuffer][y * m_nScreenWidth + x + i].glyph = c[i];
 			m_bufScreen[m_nCurrentBuffer][y * m_nScreenWidth + x + i].colour = col;
 		}
@@ -541,14 +540,14 @@ public:
 				xe = x1;
 			}
 			Draw(x, y, c, col);
-			for (i = 0; x<xe; i++)
+			for (i = 0; x < xe; i++)
 			{
 				x = x + 1;
-				if (px<0)
+				if (px < 0)
 					px = px + 2 * dy1;
 				else
 				{
-					if ((dx<0 && dy<0) || (dx>0 && dy>0))
+					if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
 						y = y + 1;
 					else
 						y = y - 1;
@@ -572,14 +571,14 @@ public:
 				ye = y1;
 			}
 			Draw(x, y, c, col);
-			for (i = 0; y<ye; i++)
+			for (i = 0; y < ye; i++)
 			{
 				y = y + 1;
 				if (py <= 0)
 					py = py + 2 * dx1;
 				else
 				{
-					if ((dx<0 && dy<0) || (dx>0 && dy>0))
+					if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
 						x = x + 1;
 					else
 						x = x - 1;
@@ -710,7 +709,7 @@ public:
 
 	~olcConsoleGameEngine()
 	{
-		
+
 	}
 
 public:
@@ -718,7 +717,7 @@ public:
 	{
 		m_bAtomActive = true;
 
-		// Star the thread
+		// Start the thread
 		std::thread t = std::thread(&olcConsoleGameEngine::GameThread, this);
 
 		// Wait for thread to be exited
@@ -798,30 +797,84 @@ private:
 				{
 					switch (e.type)
 					{
-						case SDL_QUIT:
-							m_bAtomActive = false;
+					case SDL_QUIT:
+						m_bAtomActive = false;
 						break;
 
-						case SDL_KEYDOWN:
-						{
-							int k = e.key.keysym.scancode; // SDL Scancode
-							m_keyNewState[k] = true;
-						}
-						break;
+					case SDL_KEYDOWN:
+					{
+						int k = e.key.keysym.scancode; // SDL Scancode
+						m_keyNewState[k] = true;
+					}
+					break;
 
-						case SDL_KEYUP:
+					case SDL_KEYUP:
+					{
+						int k = e.key.keysym.scancode; // SDL Scancode
+						m_keyNewState[k] = false;
+					}
+					break;
+
+					case SDL_MOUSEMOTION:
+					{
+						m_mousePosX = e.motion.x / m_nFontWidth;
+						m_mousePosY = e.motion.y / m_nFontHeight;
+					}
+					break;
+
+					case SDL_MOUSEBUTTONDOWN:
+					{
+						switch (e.button.button)
 						{
-							int k = e.key.keysym.scancode; // SDL Scancode
-							m_keyNewState[k] = false;
+						case SDL_BUTTON_LEFT:
+							m_mouseNewState[0] = 1;
+							break;
+						case SDL_BUTTON_RIGHT:
+							m_mouseNewState[1] = 1;
+							break;
+						case SDL_BUTTON_MIDDLE:
+							m_mouseNewState[2] = 1;
+							break;
+						case SDL_BUTTON_X1:
+							m_mouseNewState[3] = 1;
+							break;
+						case SDL_BUTTON_X2:
+							m_mouseNewState[4] = 1;
+							break;
 						}
-						break;
+					}	
+					break;
+
+					case SDL_MOUSEBUTTONUP:
+					{
+						
+						switch (e.button.button)
+						{
+						case SDL_BUTTON_LEFT:
+							m_mouseNewState[0] = 0;
+							break;
+						case SDL_BUTTON_RIGHT:
+							m_mouseNewState[1] = 0;
+							break;
+						case SDL_BUTTON_MIDDLE:
+							m_mouseNewState[2] = 0;
+							break;
+						case SDL_BUTTON_X1:
+							m_mouseNewState[3] = 0;
+							break;
+						case SDL_BUTTON_X2:
+							m_mouseNewState[4] = 0;
+							break;
+						}
+					}
+					break;
 
 					}
 				}
 
 				// Handle Keyboard Input
 				for (int k = 0; k < 512; k++)
-				{					
+				{
 					m_keys._state[k].bPressed = false;
 					m_keys._state[k].bReleased = false;
 
@@ -842,57 +895,7 @@ private:
 					m_keyOldState[k] = m_keyNewState[k];
 				}
 
-				// Handle Mouse Input - Check for window events
-			/*	INPUT_RECORD inBuf[32];
-				DWORD events = 0;
-				GetNumberOfConsoleInputEvents(m_hConsoleIn, &events);
-				if (events > 0)
-					ReadConsoleInput(m_hConsoleIn, inBuf, events, &events);*/
-
-				// Handle events - we only care about mouse clicks and movement
-				// for now
-				//for (DWORD i = 0; i < events; i++)
-				//{
-				//	switch (inBuf[i].EventType)
-				//	{
-				//	case FOCUS_EVENT:
-				//	{
-				//		m_bConsoleInFocus = inBuf[i].Event.FocusEvent.bSetFocus;
-				//	}
-				//	break;
-
-				//	case MOUSE_EVENT:
-				//	{
-				//		switch (inBuf[i].Event.MouseEvent.dwEventFlags)
-				//		{
-				//		case MOUSE_MOVED:
-				//		{
-				//			m_mousePosX = inBuf[i].Event.MouseEvent.dwMousePosition.X;
-				//			m_mousePosY = inBuf[i].Event.MouseEvent.dwMousePosition.Y;
-				//		}
-				//		break;
-
-				//		case 0:
-				//		{
-				//			for (int m = 0; m < 5; m++)
-				//				m_mouseNewState[m] = (inBuf[i].Event.MouseEvent.dwButtonState & (1 << m)) > 0;
-
-				//		}
-				//		break;
-
-				//		default:
-				//			break;
-				//		}
-				//	}
-				//	break;
-
-				//	default:
-				//		break;
-				//		// We don't care just at the moment
-				//	}
-				//}
-
-				/*for (int m = 0; m < 5; m++)
+				for (int m = 0; m < 5; m++)
 				{
 					m_mouse[m].bPressed = false;
 					m_mouse[m].bReleased = false;
@@ -913,9 +916,81 @@ private:
 
 					m_mouseOldState[m] = m_mouseNewState[m];
 				}
-*/
 
-				// Handle Frame Update
+				// Handle Mouse Input - Check for window events
+			/*	INPUT_RECORD inBuf[32];
+				DWORD events = 0;
+				GetNumberOfConsoleInputEvents(m_hConsoleIn, &events);
+				if (events > 0)
+					ReadConsoleInput(m_hConsoleIn, inBuf, events, &events);*/
+
+					// Handle events - we only care about mouse clicks and movement
+					// for now
+					//for (DWORD i = 0; i < events; i++)
+					//{
+					//	switch (inBuf[i].EventType)
+					//	{
+					//	case FOCUS_EVENT:
+					//	{
+					//		m_bConsoleInFocus = inBuf[i].Event.FocusEvent.bSetFocus;
+					//	}
+					//	break;
+
+					//	case MOUSE_EVENT:
+					//	{
+					//		switch (inBuf[i].Event.MouseEvent.dwEventFlags)
+					//		{
+					//		case MOUSE_MOVED:
+					//		{
+					//			m_mousePosX = inBuf[i].Event.MouseEvent.dwMousePosition.X;
+					//			m_mousePosY = inBuf[i].Event.MouseEvent.dwMousePosition.Y;
+					//		}
+					//		break;
+
+					//		case 0:
+					//		{
+					//			for (int m = 0; m < 5; m++)
+					//				m_mouseNewState[m] = (inBuf[i].Event.MouseEvent.dwButtonState & (1 << m)) > 0;
+
+					//		}
+					//		break;
+
+					//		default:
+					//			break;
+					//		}
+					//	}
+					//	break;
+
+					//	default:
+					//		break;
+					//		// We don't care just at the moment
+					//	}
+					//}
+
+					/*for (int m = 0; m < 5; m++)
+					{
+						m_mouse[m].bPressed = false;
+						m_mouse[m].bReleased = false;
+
+						if (m_mouseNewState[m] != m_mouseOldState[m])
+						{
+							if (m_mouseNewState[m])
+							{
+								m_mouse[m].bPressed = true;
+								m_mouse[m].bHeld = true;
+							}
+							else
+							{
+								m_mouse[m].bReleased = true;
+								m_mouse[m].bHeld = false;
+							}
+						}
+
+						m_mouseOldState[m] = m_mouseNewState[m];
+					}
+	*/
+
+	// Handle Frame Update
 				if (!OnUserUpdate(fElapsedTime))
 					m_bAtomActive = false;
 
@@ -927,7 +1002,7 @@ private:
 				// Render differences
 				CHAR_INFO *buff_old, *buff_new;
 				buff_new = m_bufScreen[m_nCurrentBuffer];
-				buff_old = m_bufScreen[(m_nCurrentBuffer+1) % 2];
+				buff_old = m_bufScreen[(m_nCurrentBuffer + 1) % 2];
 
 				SDL_SetRenderTarget(m_render, m_screen);
 
@@ -939,13 +1014,13 @@ private:
 						if (buff_new[i].colour != buff_old[i].colour || buff_new[i].glyph != buff_old[i].glyph)
 						{
 							// Draw Cell
-							int cx = (buff_new[i].glyph-0) % 64;
-							int cy = (buff_new[i].glyph-0) / 64;
+							int cx = (buff_new[i].glyph - 0) % 64;
+							int cy = (buff_new[i].glyph - 0) / 64;
 
 							// Draw Foreground
 							int cidx = (buff_new[i].colour & 0x00F0) >> 4;
 							//SDL_Rect src_bg = { (cidx+45) * 8, 88, 8, 8 };
-							SDL_Rect src_bg = { (cidx+0) * 16, 0, 16, 16 };
+							SDL_Rect src_bg = { (cidx + 0) * 16, 0, 16, 16 };
 							SDL_Rect dst = { x * m_nFontWidth, y * m_nFontHeight, m_nFontWidth,	m_nFontHeight };
 							SDL_SetTextureColorMod(m_fontFile, 255, 255, 255);
 							SDL_SetTextureAlphaMod(m_fontFile, 255);
@@ -967,7 +1042,7 @@ private:
 				SDL_SetRenderTarget(m_render, nullptr);
 				SDL_RenderCopy(m_render, m_screen, nullptr, nullptr);
 				SDL_RenderPresent(m_render);
-				
+
 
 				// Flip buffers
 				m_nCurrentBuffer = (m_nCurrentBuffer + 1) % 2;
@@ -1027,8 +1102,8 @@ protected:
 			{
 				int scode = (SDL_Scancode)nKeyID - KEY_OFFSET;
 				return _state[scode];
-			}			
-			
+			}
+
 			switch (nKeyID)
 			{
 			case L'A': scode = SDL_SCANCODE_A; break;
@@ -1068,16 +1143,16 @@ protected:
 			case L'8': scode = SDL_SCANCODE_8; break;
 			case L'9': scode = SDL_SCANCODE_9; break;
 
-			/*case L'\'': scode = SDL_SCANCODE_APOSTROPHE; break;
-			case L'\\': scode = SDL_SCANCODE_BACKSLASH; break;
-			case L',': scode = SDL_SCANCODE_COMMA; break;
-			case L'=': scode = SDL_SCANCODE_EQUALS; break;
-			case L'[': scode = SDL_SCANCODE_LEFTBRACKET; break;
-			case L']': scode = SDL_SCANCODE_RIGHTBRACKET; break;
-			case L'-': scode = SDL_SCANCODE_MINUS; break;
-			case L'.': scode = SDL_SCANCODE_PERIOD; break;
-			case L';': scode = SDL_SCANCODE_SEMICOLON; break;
-			case L'/': scode = SDL_SCANCODE_SLASH; break;*/
+				/*case L'\'': scode = SDL_SCANCODE_APOSTROPHE; break;
+				case L'\\': scode = SDL_SCANCODE_BACKSLASH; break;
+				case L',': scode = SDL_SCANCODE_COMMA; break;
+				case L'=': scode = SDL_SCANCODE_EQUALS; break;
+				case L'[': scode = SDL_SCANCODE_LEFTBRACKET; break;
+				case L']': scode = SDL_SCANCODE_RIGHTBRACKET; break;
+				case L'-': scode = SDL_SCANCODE_MINUS; break;
+				case L'.': scode = SDL_SCANCODE_PERIOD; break;
+				case L';': scode = SDL_SCANCODE_SEMICOLON; break;
+				case L'/': scode = SDL_SCANCODE_SLASH; break;*/
 
 			default: scode = (SDL_Scancode)nKeyID;
 			}
@@ -1085,21 +1160,23 @@ protected:
 			return _state[scode];
 		}
 
-	} m_keys; 
+	} m_keys;
+
+	sKeyState m_mouse[5];
 
 	int m_mousePosX;
 	int m_mousePosY;
 
 public:
-	sKeyState GetKey(int nKeyID) 	
-	{ 
-		return m_keys[nKeyID]; 	
+	sKeyState GetKey(int nKeyID)
+	{
+		return m_keys[nKeyID];
 	}
 
 
 	int GetMouseX() { return m_mousePosX; }
 	int GetMouseY() { return m_mousePosY; }
-	//sKeyState GetMouse(int nMouseButtonID) { return m_mouse[nMouseButtonID]; }
+	sKeyState GetMouse(int nMouseButtonID) { return m_mouse[nMouseButtonID]; }
 	bool IsFocused() { return m_bConsoleInFocus; }
 
 
@@ -1115,14 +1192,19 @@ protected:
 	{
 		// Load image.
 		SDL_Surface* temp = SDL_LoadBMP(fname.c_str());
-	
+
+		if (temp == nullptr) {
+			std::wcout << L"Please download the necessary bmp file too!\n";
+			throw 1;
+		}
+
 		// set color key to 255,0,255; this basically makes
 		// it transparent.
 		SDL_SetColorKey(temp, SDL_TRUE, SDL_MapRGB(temp->format, 255, 0, 255));
-			
+
 		// Convert to texture.
-		m_fontFile = SDL_CreateTextureFromSurface(m_render,	temp);
-		
+		m_fontFile = SDL_CreateTextureFromSurface(m_render, temp);
+
 		// Cleanup and return.
 		SDL_FreeSurface(temp);
 	}
@@ -1172,4 +1254,3 @@ private:
 std::atomic<bool> olcConsoleGameEngine::m_bAtomActive(false);
 std::condition_variable olcConsoleGameEngine::m_cvGameFinished;
 std::mutex olcConsoleGameEngine::m_muxGame;
-
